@@ -1,0 +1,15 @@
+image: docker:latest
+services:
+  - docker:dind
+
+stages:
+  - build
+
+build:
+  image: gradle:5.0-jdk8-alpine
+  stage: build
+  script:
+    - gradle build
+  artifacts:
+    paths:
+      - build/libs/*.jar
