@@ -12,4 +12,4 @@ build:
     - gradle build
   artifacts:
     paths:
-      - build/libs/*.jar
+       -api_citame_empresas/gradle/wrapper/*.jar
