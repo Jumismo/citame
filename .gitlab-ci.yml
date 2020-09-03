@@ -1,4 +1,10 @@
 image: docker:latest
+  
+variables:
+    SONAR_TOKEN: "f188d828b4ee5666618d2c045ff7855bf395b600"
+    SONAR_HOST_URL: "http://sonny.titaniumsystem.es/sonar"
+    GIT_DEPTH: 0
+
 services:
   - docker:dind
 
@@ -17,7 +23,5 @@ build:
        
 sonar:
   image: gradle:alpine
-  variables:
-    - SONAR_TOKEN: "f188d828b4ee5666618d2c045ff7855bf395b600"
-    - SONAR_HOST_URL: "http://sonny.titaniumsystem.es/sonar"
-    - GIT_DEPTH: 0
+  script: gradle sonarqube -Dsonar.qualitygate.wait=true
+  allow_failure: true
