@@ -1,6 +1,7 @@
 package com.jumismo.citame.apiempresas.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,11 @@ public class EmpresaServiceImpl implements IEmpresaService {
 	@Override
 	public List<EmpresaDTO> getAllEmpresas() {
 		return empresaDAO.findAll();
+	}
+
+	@Override
+	public Optional<EmpresaDTO> getEmpresa(Long id) {
+		return empresaDAO.findById(id);
 	}
 
 }
