@@ -2,8 +2,9 @@ package com.jumismo.citame.apiempresas.dto;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,14 +14,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Empresa")
+@Table(name = "employer")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmpresaDTO {
+public class EmployerDTO {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Long id;
 
 	@NotNull
@@ -29,6 +30,14 @@ public class EmpresaDTO {
 
 	@NotNull
 	@NotBlank
-	private String cif;
+	private String phone;
+
+	@NotNull
+	private boolean isOwner;
+
+	@NotNull
+	@ManyToOne
+	@JoinColumn
+	private EntrepriseDTO entreprise;
 
 }
