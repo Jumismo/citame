@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployerDTO {
+public class EmployeeDTO {
 
 	@Id
 	@GeneratedValue
