@@ -34,8 +34,7 @@ public class EntrepriseDTO {
 	@NotBlank
 	private String cif;
 
-	@NotNull
 	@OneToMany(mappedBy = "entreprise", cascade = CascadeType.ALL)
-	private List<EmployerDTO> listEmployer;
+	private List<EmployeeDTO> listEmployer;
 
 }
