@@ -1,7 +1,6 @@
 package com.jumismo.citame.apiempresas.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jumismo.citame.apiempresas.dto.EntrepriseDTO;
+import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
 import com.jumismo.citame.apiempresas.services.IEntrepriseService;
 
 import io.swagger.annotations.ApiOperation;
@@ -40,11 +40,11 @@ class EntrepriseRestController {
 		return entrepriseService.getAllEntreprise();
 	}
 
-	@ApiOperation(value = "Get entreprise by id", response = EntrepriseDTO.class)
+	@ApiOperation(value = "Get entreprise by id", response = EntrepriseEntity.class)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Entreprise found"),
 			@ApiResponse(code = 404, message = "Not found") })
 	@GetMapping(value = "/empresas/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Optional<EntrepriseDTO> getEmpresa(@Validated @PathVariable Long id) {
+	public EntrepriseDTO getEmpresa(@Validated @PathVariable Long id) {
 		log.debug("Call getEmpresa method with id %d", id);
 		return entrepriseService.getEntreprise(id);
 	}

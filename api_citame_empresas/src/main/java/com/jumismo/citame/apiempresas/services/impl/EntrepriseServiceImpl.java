@@ -1,12 +1,14 @@
 package com.jumismo.citame.apiempresas.services.impl;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.jumismo.citame.apiempresas.dao.IEntrepriseDAO;
 import com.jumismo.citame.apiempresas.dto.EntrepriseDTO;
+import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
 import com.jumismo.citame.apiempresas.services.IEntrepriseService;
 
 /**
@@ -17,6 +19,8 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 
 	/** The empresa DAO. */
 	private final IEntrepriseDAO entrepriseDAO;
+	
+	private final ModelMapper entrepriseMapper;
 
 	/**
 	 * Instantiates a new empresa service impl.
@@ -25,6 +29,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	 */
 	public EntrepriseServiceImpl(IEntrepriseDAO entrepriseDAO) {
 		this.entrepriseDAO = entrepriseDAO;
+		this.entrepriseMapper = new ModelMapper();
 	}
 
 	/**
@@ -34,7 +39,10 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	 */
 	@Override
 	public List<EntrepriseDTO> getAllEntreprise() {
-		return entrepriseDAO.findAll();
+		return entrepriseDAO.findAll()
+				.stream()
+				.map(entreprise -> entrepriseMapper.map(entreprise, EntrepriseDTO.class))
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -44,8 +52,8 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	 * @return the empresa
 	 */
 	@Override
-	public Optional<EntrepriseDTO> getEntreprise(Long id) {
-		return entrepriseDAO.findById(id);
+	public EntrepriseDTO getEntreprise(Long id) {
+		return entrepriseMapper.map(entrepriseDAO.findById(id), EntrepriseDTO.class);
 	}
 
 	/**
@@ -55,7 +63,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	 */
 	@Override
 	public void save(EntrepriseDTO empresa) {
-		entrepriseDAO.save(empresa);
+		entrepriseDAO.save(entrepriseMapper.map(empresa, EntrepriseEntity.class));
 	}
 
 	/**

@@ -1,43 +1,34 @@
 package com.jumismo.citame.apiempresas.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "employer")
+/**
+ * The Class EmployeeDTO.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeDTO {
+public class EmployeeDTO implements Serializable{
 
-	@Id
-	@GeneratedValue
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -9153277495284218570L;
+
+	/** The id. */
 	private Long id;
 
-	@NotNull
-	@NotBlank
+	/** The name. */
 	private String name;
 
-	@NotNull
-	@NotBlank
+	/** The phone. */
 	private String phone;
 
-	@NotNull
+	/** The is owner. */
 	private boolean isOwner;
 
-	@NotNull
-	@ManyToOne
-	@JoinColumn
+	/** The entreprise. */
 	private EntrepriseDTO entreprise;
-
 }

@@ -1,40 +1,32 @@
 package com.jumismo.citame.apiempresas.dto;
 
+import java.io.Serializable;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "entreprise")
+/**
+ * The Class EntrepriseDTO.
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class EntrepriseDTO {
+@NoArgsConstructor
+public class EntrepriseDTO implements Serializable{
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -8639517619034425102L;
 
-	@Id
-	@GeneratedValue
+	/** The id. */
 	private Long id;
 
-	@NotNull
-	@NotBlank
+	/** The name. */
 	private String name;
 
-	@NotNull
-	@NotBlank
+	/** The cif. */
 	private String cif;
 
-	@OneToMany(mappedBy = "entreprise", cascade = CascadeType.ALL)
+	/** The list employer. */
 	private List<EmployeeDTO> listEmployer;
-
 }
