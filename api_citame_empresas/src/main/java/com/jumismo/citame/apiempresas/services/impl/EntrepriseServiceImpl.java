@@ -11,26 +11,19 @@ import com.jumismo.citame.apiempresas.dto.EntrepriseDTO;
 import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
 import com.jumismo.citame.apiempresas.services.IEntrepriseService;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * The Class EmpresaServiceImpl.
  */
 @Service
+@RequiredArgsConstructor
 public class EntrepriseServiceImpl implements IEntrepriseService {
 
 	/** The empresa DAO. */
 	private final IEntrepriseDAO entrepriseDAO;
 	
 	private final ModelMapper entrepriseMapper;
-
-	/**
-	 * Instantiates a new empresa service impl.
-	 *
-	 * @param empresaDAO the empresa DAO
-	 */
-	public EntrepriseServiceImpl(IEntrepriseDAO entrepriseDAO) {
-		this.entrepriseDAO = entrepriseDAO;
-		this.entrepriseMapper = new ModelMapper();
-	}
 
 	/**
 	 * Gets the all empresas.
