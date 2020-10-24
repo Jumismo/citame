@@ -14,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jumismo.citame.apiempresas.dao.IEntrepriseDAO;
 import com.jumismo.citame.apiempresas.dto.EntrepriseDTO;
