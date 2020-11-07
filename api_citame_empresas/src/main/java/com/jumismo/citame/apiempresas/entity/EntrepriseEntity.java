@@ -1,6 +1,6 @@
 package com.jumismo.citame.apiempresas.entity;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -35,6 +35,6 @@ public class EntrepriseEntity {
 	private String cif;
 
 	@OneToMany(mappedBy = "entreprise", cascade = CascadeType.ALL)
-	private List<EmployeeEntity> listEmployer;
+	private Set<EmployeeEntity> listEmployer;
 
 }

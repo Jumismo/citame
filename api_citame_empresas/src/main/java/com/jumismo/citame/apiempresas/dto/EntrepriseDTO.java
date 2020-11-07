@@ -1,7 +1,7 @@
 package com.jumismo.citame.apiempresas.dto;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,5 +28,5 @@ public class EntrepriseDTO implements Serializable{
 	private String cif;
 
 	/** The list employer. */
-	private List<EmployeeDTO> listEmployer;
+	private Set<EmployeeDTO> listEmployer;
 }

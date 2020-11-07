@@ -49,7 +49,7 @@ class EntrepriseDAOTest {
 		Optional<List<EntrepriseEntity>> entreprises = Optional.ofNullable(entrepriseDAO.findAll());
 		
 		if(entreprises.isPresent()) {
-			assertTrue(entreprises.get().size() == 1);
+			assertTrue(entreprises.get().size() == 6);
 		}
 	}
 

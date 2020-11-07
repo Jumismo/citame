@@ -1,6 +1,7 @@
 package com.jumismo.citame.apiempresas.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -23,6 +24,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	/** The empresa DAO. */
 	private final IEntrepriseDAO entrepriseDAO;
 	
+	/** The entreprise mapper. */
 	private final ModelMapper entrepriseMapper;
 
 	/**
@@ -46,7 +48,13 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	 */
 	@Override
 	public EntrepriseDTO getEntreprise(Long id) {
-		return entrepriseMapper.map(entrepriseDAO.findById(id), EntrepriseDTO.class);
+		Optional<EntrepriseEntity> entrepriseEntity = entrepriseDAO.findById(id);
+		if(entrepriseEntity.isPresent()) {
+			return entrepriseMapper.map(entrepriseEntity.get(), EntrepriseDTO.class);
+		}
+		else {
+			return new EntrepriseDTO();
+		}
 	}
 
 	/**

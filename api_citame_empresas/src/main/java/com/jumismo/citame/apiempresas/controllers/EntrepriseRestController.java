@@ -24,11 +24,11 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/v1")
 @Slf4j
-class EntrepriseRestController {
+public class EntrepriseRestController {
 
 	private final IEntrepriseService entrepriseService;
 
-	EntrepriseRestController(IEntrepriseService entrepriseService) {
+	public EntrepriseRestController(IEntrepriseService entrepriseService) {
 		this.entrepriseService = entrepriseService;
 	}
 
