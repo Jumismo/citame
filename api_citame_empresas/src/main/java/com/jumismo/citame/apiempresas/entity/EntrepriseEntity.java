@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,6 +37,7 @@ public class EntrepriseEntity {
 	private String cif;
 
 	@OneToMany(mappedBy = "entreprise", cascade = CascadeType.ALL)
+    @JsonManagedReference
 	private Set<EmployeeEntity> listEmployer;
 
 }

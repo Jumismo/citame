@@ -19,22 +19,21 @@ import com.jumismo.citame.apiempresas.services.IEntrepriseService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/v1")
 @Slf4j
+@RequiredArgsConstructor
 public class EntrepriseRestController {
 
 	private final IEntrepriseService entrepriseService;
 
-	public EntrepriseRestController(IEntrepriseService entrepriseService) {
-		this.entrepriseService = entrepriseService;
-	}
 
 	@ApiOperation(value = "Get all entreprise", response = List.class)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok!!"), @ApiResponse(code = 404, message = "Not found") })
-	@GetMapping(value = "/empresas", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/entreprises", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<EntrepriseDTO> getAllEmpresas() {
 		log.debug("Call getAllEmpresas method");
 		return entrepriseService.getAllEntreprise();
@@ -43,7 +42,7 @@ public class EntrepriseRestController {
 	@ApiOperation(value = "Get entreprise by id", response = EntrepriseEntity.class)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Entreprise found"),
 			@ApiResponse(code = 404, message = "Not found") })
-	@GetMapping(value = "/empresas/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/entreprises/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public EntrepriseDTO getEmpresa(@Validated @PathVariable Long id) {
 		log.debug("Call getEmpresa method with id %d", id);
 		return entrepriseService.getEntreprise(id);
@@ -53,7 +52,7 @@ public class EntrepriseRestController {
 	@ApiResponses({ @ApiResponse(code = 201, message = "Entreprise created"),
 			@ApiResponse(code = 403, message = "Permission denied"),
 			@ApiResponse(code = 500, message = "Internal server error") })
-	@PostMapping("/empresas")
+	@PostMapping("/entreprises")
 	public void save(@RequestBody EntrepriseDTO empresa) {
 		entrepriseService.save(empresa);
 	}
@@ -62,7 +61,7 @@ public class EntrepriseRestController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "Entreprise created"),
 			@ApiResponse(code = 403, message = "Permission denied"),
 			@ApiResponse(code = 500, message = "Internal server error") })
-	@DeleteMapping("/empresas/{id}")
+	@DeleteMapping("/entreprises/{id}")
 	public void delete(@PathVariable(value = "id") Long idEmpresa) {
 		entrepriseService.delete(idEmpresa);
 	}

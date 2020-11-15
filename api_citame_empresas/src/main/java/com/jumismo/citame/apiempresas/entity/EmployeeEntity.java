@@ -9,6 +9,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,6 +40,7 @@ public class EmployeeEntity {
 	@NotNull
 	@ManyToOne
 	@JoinColumn
+    @JsonBackReference
 	private EntrepriseEntity entreprise;
 
 }
