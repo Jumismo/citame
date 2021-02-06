@@ -3,6 +3,7 @@ package com.jumismo.citame.apiempresas.dto;
 import java.io.Serializable;
 import java.util.Set;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class EntrepriseDTO implements Serializable{
 	private static final long serialVersionUID = -8639517619034425102L;
 
 	/** The id. */
+	@ApiModelProperty(hidden = true)
 	private Long id;
 
 	/** The name. */

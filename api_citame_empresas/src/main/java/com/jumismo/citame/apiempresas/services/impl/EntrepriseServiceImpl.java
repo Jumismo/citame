@@ -36,7 +36,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	public List<EntrepriseDTO> getAllEntreprise() {
 		return entrepriseDAO.findAll()
 				.stream()
-				.map(entreprise -> entrepriseMapper.map(entreprise, EntrepriseDTO.class))
+				.map(entreprise -> convertToDTO(entreprise))
 				.collect(Collectors.toList());
 	}
 
@@ -50,7 +50,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	public EntrepriseDTO getEntreprise(Long id) {
 		Optional<EntrepriseEntity> entrepriseEntity = entrepriseDAO.findById(id);
 		if(entrepriseEntity.isPresent()) {
-			return entrepriseMapper.map(entrepriseEntity.get(), EntrepriseDTO.class);
+			return convertToDTO(entrepriseEntity.get());
 		}
 		else {
 			return new EntrepriseDTO();
@@ -76,6 +76,11 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	@Override
 	public void delete(Long id) {
 		entrepriseDAO.deleteById(id);
+	}
+	
+	private EntrepriseDTO convertToDTO(EntrepriseEntity entity) {
+		EntrepriseDTO entrepriseDTO = entrepriseMapper.map(entity, EntrepriseDTO.class);
+		return entrepriseDTO;
 	}
 
 }

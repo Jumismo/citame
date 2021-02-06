@@ -6,13 +6,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.modelmapper.ModelMapper;
 import com.jumismo.citame.apiempresas.dao.IEmployeeDAO;
+import com.jumismo.citame.apiempresas.dao.IEntrepriseDAO;
 import com.jumismo.citame.apiempresas.dto.EmployeeDTO;
-import com.jumismo.citame.apiempresas.dto.EntrepriseDTO;
 import com.jumismo.citame.apiempresas.entity.EmployeeEntity;
+import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
 import com.jumismo.citame.apiempresas.services.IEmployeeService;
-import com.jumismo.citame.apiempresas.services.IEntrepriseService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,15 +22,15 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	
 	public final IEmployeeDAO employeeDAO;
 	
-	public final IEntrepriseService entrepriseDAO;
+	public final IEntrepriseDAO entrepriseDAO;
 	
-	public final ObjectMapper mapper;
+	public final ModelMapper mapper;
 
 	@Override
 	public List<EmployeeDTO> findAll() {
 		return employeeDAO.findAll()
 				.stream()
-				.map(employee -> mapper.convertValue(employee, EmployeeDTO.class))
+				.map(employee -> convertToDTO(employee))
 				.collect(Collectors.toList());
 	}
 
@@ -38,18 +38,27 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	public EmployeeDTO findById(Long id) {
 		Optional<EmployeeEntity> employee = employeeDAO.findById(id);
 		if(employee.isPresent()) {
-			return mapper.convertValue(employee.get(), EmployeeDTO.class);
+			return convertToDTO(employee.get());
 		}else {
 			return new EmployeeDTO();
 		}
 	}
 
 	@Override
-	public void save(EmployeeDTO employee) {
-		EntrepriseDTO entreprise = entrepriseDAO.getEntreprise(employee.getEntreprise().getId());
-		if(entreprise.getId() != null) {
-			employee.setEntreprise(entreprise);
-			employeeDAO.save(mapper.convertValue(employee, EmployeeEntity.class));
+	public void save(EmployeeDTO employeeDTO) {
+		Optional<EntrepriseEntity> entreprise = entrepriseDAO.findById(employeeDTO.getEntrepriseId());
+		if(entreprise.isPresent()) {
+			EmployeeEntity employeeEntity = mapper.map(employeeDTO, EmployeeEntity.class);
+			employeeEntity.setEntreprise(mapper.map(entreprise.get(), EntrepriseEntity.class));
+			try {
+				employeeEntity = employeeDAO.save(employeeEntity);
+				if(employeeEntity.getId() != null) {
+					entreprise.get().getListEmployer().add(employeeEntity);
+					entrepriseDAO.save(entreprise.get());
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		}else {
 			//TODO: Add exception
 		}
@@ -58,6 +67,12 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Override
 	public void delete(Long id) {
 		employeeDAO.deleteById(id);
+	}
+	
+	private EmployeeDTO convertToDTO(EmployeeEntity entity) {
+		EmployeeDTO employeeDTO = mapper.map(entity, EmployeeDTO.class);
+		employeeDTO.setEntrepriseId(entity.getEntreprise().getId());
+		return employeeDTO;
 	}
 
 }
