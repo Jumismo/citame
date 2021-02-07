@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.modelmapper.ModelMapper;
 import com.jumismo.citame.apiempresas.dao.IEmployeeDAO;
 import com.jumismo.citame.apiempresas.dao.IEntrepriseDAO;
 import com.jumismo.citame.apiempresas.dto.EmployeeDTO;
@@ -17,14 +18,14 @@ import com.jumismo.citame.apiempresas.services.IEmployeeService;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EmployeeServiceImpl implements IEmployeeService {
 	
-	public final IEmployeeDAO employeeDAO;
+	private final IEmployeeDAO employeeDAO;
 	
-	public final IEntrepriseDAO entrepriseDAO;
+	private final IEntrepriseDAO entrepriseDAO;
 	
-	public final ModelMapper mapper;
+	private final ModelMapper mapper;
 
 	@Override
 	public List<EmployeeDTO> findAll() {
@@ -46,16 +47,16 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	public void save(EmployeeDTO employeeDTO) {
-		Optional<EntrepriseEntity> entreprise = entrepriseDAO.findById(employeeDTO.getEntrepriseId());
-		if(entreprise.isPresent()) {
+		Optional<EntrepriseEntity> entrepriseEntity = entrepriseDAO.findById(employeeDTO.getEntrepriseId());
+		if(entrepriseEntity.isPresent()) {
 			EmployeeEntity employeeEntity = mapper.map(employeeDTO, EmployeeEntity.class);
-			employeeEntity.setEntreprise(mapper.map(entreprise.get(), EntrepriseEntity.class));
+			employeeEntity.setEntreprise(mapper.map(entrepriseEntity.get(), EntrepriseEntity.class));
 			try {
-				employeeEntity = employeeDAO.save(employeeEntity);
-				if(employeeEntity.getId() != null) {
-					entreprise.get().getListEmployer().add(employeeEntity);
-					entrepriseDAO.save(entreprise.get());
-				}
+				employeeDAO.save(employeeEntity);
+//				if(employeeDAO.save(employeeEntity).getId() != null) {
+//					entrepriseEntity.get().getListEmployer().add(employeeEntity);
+//					entrepriseDAO.save(entrepriseEntity.get());
+//				}
 			}catch (Exception e) {
 				e.printStackTrace();
 			}

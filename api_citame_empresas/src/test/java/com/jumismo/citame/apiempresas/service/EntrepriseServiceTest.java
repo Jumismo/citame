@@ -7,40 +7,35 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.jumismo.citame.apiempresas.dao.IEntrepriseDAO;
 import com.jumismo.citame.apiempresas.dto.EntrepriseDTO;
 import com.jumismo.citame.apiempresas.entity.EmployeeEntity;
 import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
+import com.jumismo.citame.apiempresas.services.IEntrepriseService;
 import com.jumismo.citame.apiempresas.services.impl.EntrepriseServiceImpl;
 
+@SpringBootTest
 class EntrepriseServiceTest {
-
-	@InjectMocks
-	private EntrepriseServiceImpl entrepriseService;
 	
 	@Mock
 	private IEntrepriseDAO entrepriseDAO;
 	
-	@Mock
-	private ModelMapper modelMapper;
+	private ModelMapper modelMapper = new ModelMapper();
+
+	private IEntrepriseService entrepriseService;
 	
 	
 	@BeforeEach
 	void setUp() {
-		MockitoAnnotations.initMocks(this);
-	}
-	
-	@Test
-	void getAllEntreprise() {
+		entrepriseService = new EntrepriseServiceImpl(entrepriseDAO, modelMapper);
+		
 		List<EntrepriseEntity> entreprises = new ArrayList<>();
 		
 		EntrepriseEntity entreprise = new EntrepriseEntity();
@@ -52,12 +47,15 @@ class EntrepriseServiceTest {
 		employee.setPhone("12345678");
 		employee.setOwner(false);
 		employee.setEntreprise(entreprise);
-		entreprise.setListEmployer(Set.of(employee));
+		entreprise.setListEmployer(List.of(employee));
 		
 		entreprises.add(entreprise);
 		
 		when(entrepriseDAO.findAll()).thenReturn(entreprises);
-		
+	}
+	
+	@Test
+	void getAllEntreprise() {
 		List<EntrepriseDTO> entreprisesDTOList = entrepriseService.getAllEntreprise();
 		
 		assertEquals(1, entreprisesDTOList.size());

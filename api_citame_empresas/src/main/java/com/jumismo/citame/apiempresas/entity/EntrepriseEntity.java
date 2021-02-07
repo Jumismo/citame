@@ -1,10 +1,11 @@
 package com.jumismo.citame.apiempresas.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class EntrepriseEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotNull
@@ -36,8 +37,8 @@ public class EntrepriseEntity {
 	@NotBlank
 	private String cif;
 
-	@OneToMany(mappedBy = "entreprise", cascade = CascadeType.ALL)
-	private Set<EmployeeEntity> listEmployer = new HashSet<>();
+	@OneToMany(mappedBy = "entreprise", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<EmployeeEntity> listEmployer = new ArrayList<>();
 
 
 }

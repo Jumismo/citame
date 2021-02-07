@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jumismo.citame.apiempresas.dao.IEntrepriseDAO;
@@ -18,7 +19,7 @@ import lombok.RequiredArgsConstructor;
  * The Class EmpresaServiceImpl.
  */
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EntrepriseServiceImpl implements IEntrepriseService {
 
 	/** The empresa DAO. */
@@ -34,7 +35,8 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	 */
 	@Override
 	public List<EntrepriseDTO> getAllEntreprise() {
-		return entrepriseDAO.findAll()
+		List<EntrepriseEntity> lista = entrepriseDAO.findAll();
+		return lista
 				.stream()
 				.map(entreprise -> convertToDTO(entreprise))
 				.collect(Collectors.toList());

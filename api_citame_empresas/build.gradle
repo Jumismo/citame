@@ -41,8 +41,8 @@ dependencies {
 				   'ch.qos.logback:logback-classic:1.2.3',
 				   'org.modelmapper:modelmapper:2.3.8'
 				   
-				   
-	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'mysql:mysql-connector-java'		   
+	//runtimeOnly 'com.h2database:h2'
 	
 	testCompileOnly 'org.projectlombok:lombok:1.18.16',
 					'org.junit.jupiter:junit-jupiter:5.7.0'
