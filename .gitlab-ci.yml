@@ -28,8 +28,8 @@ build:
        - api_citame_empresas/gradle/wrapper/*.jar
        
 sonar:
-  image: sonarsource/sonar-scanner-cli:latest
+  image: gradle:jre11-slim
   stage: sonar_job
   script: 
-    - sonar-scanner -Dsonar.qualitygate.wait=true
+    - gradle sonarqube -Dsonar.qualitygate.wait=true
   allow_failure: true
