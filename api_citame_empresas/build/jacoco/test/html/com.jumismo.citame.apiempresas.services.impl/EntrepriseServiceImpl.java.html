@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntrepriseServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api_citame_empresas</a> &gt; <a href="index.source.html" class="el_package">com.jumismo.citame.apiempresas.services.impl</a> &gt; <span class="el_source">EntrepriseServiceImpl.java</span></div><h1>EntrepriseServiceImpl.java</h1><pre class="source lang-java linenums">package com.jumismo.citame.apiempresas.services.impl;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.jumismo.citame.apiempresas.dao.IEntrepriseDAO;
+import com.jumismo.citame.apiempresas.dto.EntrepriseDTO;
+import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
+import com.jumismo.citame.apiempresas.services.IEntrepriseService;
+
+import lombok.RequiredArgsConstructor;
+
+/**
+ * The Class EmpresaServiceImpl.
+ */
+@Service
+<span class="fc" id="L22">@RequiredArgsConstructor(onConstructor = @__(@Autowired))</span>
+public class EntrepriseServiceImpl implements IEntrepriseService {
+
+	/** The empresa DAO. */
+	private final IEntrepriseDAO entrepriseDAO;
+	
+	/** The entreprise mapper. */
+	private final ModelMapper entrepriseMapper;
+
+	/**
+	 * Gets the all empresas.
+	 *
+	 * @return the all empresas
+	 */
+	@Override
+	public List&lt;EntrepriseDTO&gt; getAllEntreprise() {
+<span class="fc" id="L38">		List&lt;EntrepriseEntity&gt; lista = entrepriseDAO.findAll();</span>
+<span class="fc" id="L39">		return lista</span>
+<span class="fc" id="L40">				.stream()</span>
+<span class="fc" id="L41">				.map(entreprise -&gt; convertToDTO(entreprise))</span>
+<span class="fc" id="L42">				.collect(Collectors.toList());</span>
+	}
+
+	/**
+	 * Gets the empresa.
+	 *
+	 * @param id the id
+	 * @return the empresa
+	 */
+	@Override
+	public EntrepriseDTO getEntreprise(Long id) {
+<span class="nc" id="L53">		Optional&lt;EntrepriseEntity&gt; entrepriseEntity = entrepriseDAO.findById(id);</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">		if(entrepriseEntity.isPresent()) {</span>
+<span class="nc" id="L55">			return convertToDTO(entrepriseEntity.get());</span>
+		}
+		else {
+<span class="nc" id="L58">			return new EntrepriseDTO();</span>
+		}
+	}
+
+	/**
+	 * Save.
+	 *
+	 * @param empresa the empresa
+	 */
+	@Override
+	public void save(EntrepriseDTO empresa) {
+<span class="nc" id="L69">		entrepriseDAO.save(entrepriseMapper.map(empresa, EntrepriseEntity.class));</span>
+<span class="nc" id="L70">	}</span>
+
+	/**
+	 * Delete.
+	 *
+	 * @param id the id
+	 * @return the empresa DTO
+	 */
+	@Override
+	public void delete(Long id) {
+<span class="nc" id="L80">		entrepriseDAO.deleteById(id);</span>
+<span class="nc" id="L81">	}</span>
+	
+	private EntrepriseDTO convertToDTO(EntrepriseEntity entity) {
+<span class="fc" id="L84">		EntrepriseDTO entrepriseDTO = entrepriseMapper.map(entity, EntrepriseDTO.class);</span>
+<span class="fc" id="L85">		return entrepriseDTO;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
