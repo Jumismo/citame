@@ -1,5 +1,6 @@
 package com.jumismo.citame.apiempresas.services.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,12 +15,14 @@ import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
 import com.jumismo.citame.apiempresas.services.IEntrepriseService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The Class EmpresaServiceImpl.
  */
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class EntrepriseServiceImpl implements IEntrepriseService {
 
 	/** The empresa DAO. */
@@ -38,7 +41,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 		List<EntrepriseEntity> lista = entrepriseDAO.findAll();
 		return lista
 				.stream()
-				.map(entreprise -> convertToDTO(entreprise))
+				.map(this::convertToDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -77,12 +80,19 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	 */
 	@Override
 	public void delete(Long id) {
-		entrepriseDAO.deleteById(id);
+		Optional<EntrepriseEntity> entity = entrepriseDAO.findById(id);
+		if(entity.isPresent()) {
+			entity.get().setFechaBaja(new Date());
+			entrepriseDAO.save(entity.get());
+		}
+		else {
+			log.error("La empresa " + id + " no está registrada.");
+		}
 	}
 	
 	private EntrepriseDTO convertToDTO(EntrepriseEntity entity) {
-		EntrepriseDTO entrepriseDTO = entrepriseMapper.map(entity, EntrepriseDTO.class);
-		return entrepriseDTO;
+		return entrepriseMapper.map(entity, EntrepriseDTO.class);
+		
 	}
 
 }

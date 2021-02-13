@@ -39,7 +39,9 @@ dependencies {
 				   'io.springfox:springfox-swagger2:2.9.2',
 				   'io.springfox:springfox-swagger-ui:2.9.2',
 				   'ch.qos.logback:logback-classic:1.2.3',
-				   'org.modelmapper:modelmapper:2.3.8'
+				   'org.modelmapper:modelmapper:2.3.8',
+				   'org.apache.commons:commons-lang3:3.11'
+				   
 				   
 	runtimeOnly 'mysql:mysql-connector-java'		   
 	//runtimeOnly 'com.h2database:h2'

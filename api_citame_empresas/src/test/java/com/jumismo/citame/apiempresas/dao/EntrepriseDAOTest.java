@@ -2,6 +2,7 @@ package com.jumismo.citame.apiempresas.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -64,11 +65,9 @@ class EntrepriseDAOTest {
 
 	@Test
 	void getAllEntrepriseTest() {
-		Optional<List<EntrepriseEntity>> entreprises = Optional.ofNullable(entrepriseDAO.findAll());
+		List<EntrepriseEntity> entreprises = entrepriseDAO.findAll();
 		
-		if(entreprises.isPresent()) {
-			assertTrue(entreprises.get().size() == 1);
-		}
+		assertEquals(1, entreprises.size());
 		verify(entrepriseDAO, times(1)).findAll();
 	}
 
@@ -76,15 +75,8 @@ class EntrepriseDAOTest {
 	void addEntrepriseTest() {
 		EntrepriseEntity entity = entrepriseDAO.save(entreprise2);
 		
-		assertTrue(entity.getId().equals(entreprise2.getId()));
+		assertEquals(entreprise2.getId(), entity.getId());
 		verify(entrepriseDAO, times(1)).save(entreprise2);
-	}
-	
-	@Test
-	void removeEntrepriseTest() {
-		entrepriseDAO.deleteById(1L);
-		
-		verify(entrepriseDAO, times(1)).deleteById(1L);
 	}
 
 }

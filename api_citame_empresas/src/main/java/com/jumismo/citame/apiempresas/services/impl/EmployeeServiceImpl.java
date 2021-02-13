@@ -1,5 +1,6 @@
 package com.jumismo.citame.apiempresas.services.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,9 +17,11 @@ import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
 import com.jumismo.citame.apiempresas.services.IEmployeeService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class EmployeeServiceImpl implements IEmployeeService {
 	
 	private final IEmployeeDAO employeeDAO;
@@ -53,21 +56,23 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			employeeEntity.setEntreprise(mapper.map(entrepriseEntity.get(), EntrepriseEntity.class));
 			try {
 				employeeDAO.save(employeeEntity);
-//				if(employeeDAO.save(employeeEntity).getId() != null) {
-//					entrepriseEntity.get().getListEmployer().add(employeeEntity);
-//					entrepriseDAO.save(entrepriseEntity.get());
-//				}
 			}catch (Exception e) {
-				e.printStackTrace();
+				log.error("Error al registrar al empleado: " + employeeDTO.getName());
 			}
 		}else {
-			//TODO: Add exception
+			log.error("Error al obtener la empresa con ID: " + employeeDTO.getEntrepriseId());
 		}
 	}
 
 	@Override
 	public void delete(Long id) {
-		employeeDAO.deleteById(id);
+		Optional<EmployeeEntity> entity = employeeDAO.findById(id);
+		if(entity.isPresent()) {
+			entity.get().setFechaBaja(new Date());
+			employeeDAO.save(entity.get());
+		}else {
+			log.error("El empleado " + id + " no se encuentra registrado");
+		}
 	}
 	
 	private EmployeeDTO convertToDTO(EmployeeEntity entity) {

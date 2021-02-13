@@ -1,19 +1,23 @@
 package com.jumismo.citame.apiempresas.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jumismo.citame.apiempresas.utils.Constantes;
+
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * The Class EntrepriseDTO.
  */
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class EntrepriseDTO implements Serializable{
 	
 	/** The Constant serialVersionUID. */
@@ -28,6 +32,12 @@ public class EntrepriseDTO implements Serializable{
 
 	/** The cif. */
 	private String cif;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constantes.FORMATO_FECHA_DD_MM_YYYY)
+	private Date fechaAlta;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constantes.FORMATO_FECHA_DD_MM_YYYY)
+	private Date fechaBaja;
 
 	/** The list employer. */
 	private Set<EmployeeDTO> listEmployer;
