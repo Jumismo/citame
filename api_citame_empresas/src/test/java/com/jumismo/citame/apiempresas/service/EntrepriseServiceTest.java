@@ -26,17 +26,28 @@ import com.jumismo.citame.apiempresas.services.IEntrepriseService;
 import com.jumismo.citame.apiempresas.services.impl.EntrepriseServiceImpl;
 import com.jumismo.citame.apiempresas.utils.TestData;
 
+/**
+ * The Class EntrepriseServiceTest.
+ */
 @SpringBootTest
 class EntrepriseServiceTest {
 	
+	/** The entreprise DAO. */
 	@Mock
 	private IEntrepriseDAO entrepriseDAO;
 	
+	/** The model mapper. */
 	private ModelMapper modelMapper = new ModelMapper();
 
+	/** The entreprise service. */
 	private IEntrepriseService entrepriseService;
 	
 	
+	/**
+	 * Sets the up.
+	 *
+	 * @throws ParseException the parse exception
+	 */
 	@BeforeEach
 	void setUp() throws ParseException {
 		entrepriseService = new EntrepriseServiceImpl(entrepriseDAO, modelMapper);
@@ -57,6 +68,11 @@ class EntrepriseServiceTest {
 		when(entrepriseDAO.save(Mockito.any(EntrepriseEntity.class))).thenReturn(entreprise);
 	}
 	
+	/**
+	 * Gets the all entreprise test.
+	 *
+	 * @return the all entreprise test
+	 */
 	@Test
 	void getAllEntrepriseTest() {
 		List<EntrepriseDTO> entreprisesDTOList = entrepriseService.getAllEntreprise();
@@ -65,6 +81,11 @@ class EntrepriseServiceTest {
 		verify(entrepriseDAO, times(1)).findAll();
 	}
 	
+	/**
+	 * Gets the entreprise test.
+	 *
+	 * @return the entreprise test
+	 */
 	@Test
 	void getEntrepriseTest() {
 		EntrepriseDTO entrepriseDTO = entrepriseService.getEntreprise(1L);
@@ -73,6 +94,11 @@ class EntrepriseServiceTest {
 		verify(entrepriseDAO, times(1)).findById(1L);
 	}
 	
+	/**
+	 * Gets the not found entreprise test.
+	 *
+	 * @return the not found entreprise test
+	 */
 	@Test
 	void getNotFoundEntrepriseTest() {
 		EntrepriseDTO entrepriseDTO = entrepriseService.getEntreprise(2L);
@@ -80,12 +106,20 @@ class EntrepriseServiceTest {
 		verify(entrepriseDAO, times(1)).findById(2L);
 	}
 	
+	/**
+	 * Save entreprise test.
+	 *
+	 * @throws ParseException the parse exception
+	 */
 	@Test
 	void saveEntrepriseTest() throws ParseException {
 		entrepriseService.save(TestData.getEntrepriseDTO());
 		verify(entrepriseDAO, times(1)).save(Mockito.any(EntrepriseEntity.class));
 	}
 	
+	/**
+	 * Delete entreprise test.
+	 */
 	@Test
 	void deleteEntrepriseTest() {
 		entrepriseService.delete(1L);
@@ -93,6 +127,9 @@ class EntrepriseServiceTest {
 		verify(entrepriseDAO, times(1)).save(Mockito.any(EntrepriseEntity.class));
 	}
 	
+	/**
+	 * Delete entreprise not found test.
+	 */
 	@Test
 	void deleteEntrepriseNotFoundTest() {
 		when(entrepriseDAO.findById(Mockito.anyLong())).thenReturn(Optional.empty());

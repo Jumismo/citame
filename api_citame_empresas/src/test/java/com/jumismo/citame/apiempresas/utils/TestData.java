@@ -9,8 +9,17 @@ import com.jumismo.citame.apiempresas.dto.EntrepriseDTO;
 import com.jumismo.citame.apiempresas.entity.EmployeeEntity;
 import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
 
+/**
+ * The Class TestData.
+ */
 public class TestData {
 
+	/**
+	 * Gets the entreprise DTO.
+	 *
+	 * @return the entreprise DTO
+	 * @throws ParseException the parse exception
+	 */
 	public static EntrepriseDTO getEntrepriseDTO() throws ParseException {
 		EntrepriseDTO entreprise = new EntrepriseDTO();
 		entreprise.setId(1L);
@@ -20,6 +29,12 @@ public class TestData {
 		return entreprise;
 	}
 	
+	/**
+	 * Gets the entreprise entity.
+	 *
+	 * @return the entreprise entity
+	 * @throws ParseException the parse exception
+	 */
 	public static EntrepriseEntity getEntrepriseEntity() throws ParseException {
 		EntrepriseEntity entreprise = new EntrepriseEntity();
 		entreprise.setId(1L);
@@ -30,6 +45,12 @@ public class TestData {
 		return entreprise;
 	}
 	
+	/**
+	 * Gets the employee DTO.
+	 *
+	 * @return the employee DTO
+	 * @throws ParseException the parse exception
+	 */
 	public static EmployeeDTO getEmployeeDTO() throws ParseException {
 		EmployeeDTO employee = new EmployeeDTO();
 		employee.setId(1L);
@@ -40,6 +61,12 @@ public class TestData {
 		return employee;
 	}
 	
+	/**
+	 * Gets the employee entity.
+	 *
+	 * @return the employee entity
+	 * @throws ParseException the parse exception
+	 */
 	public static EmployeeEntity getEmployeeEntity() throws ParseException {
 		EmployeeEntity employee = new EmployeeEntity();
 		employee.setId(1L);

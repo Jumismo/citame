@@ -1,7 +1,6 @@
 package com.jumismo.citame.apiempresas.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,14 +17,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.jumismo.citame.apiempresas.entity.EmployeeEntity;
 import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
 
+/**
+ * The Class EntrepriseDAOTest.
+ */
 @SpringBootTest
 class EntrepriseDAOTest {
 
+	/** The entreprise DAO. */
 	@Mock
 	private IEntrepriseDAO entrepriseDAO;
 	
+	/** The entreprise 2. */
 	EntrepriseEntity entreprise2;
 
+	/**
+	 * Sets the up.
+	 */
 	@BeforeEach
 	void setUp() {
 		EntrepriseEntity entreprise1 = new EntrepriseEntity();
@@ -55,6 +62,11 @@ class EntrepriseDAOTest {
 		when(entrepriseDAO.save(entreprise2)).thenReturn(entreprise2);
 	}
 
+	/**
+	 * Gets the entreprise by id test.
+	 *
+	 * @return the entreprise by id test
+	 */
 	@Test
 	void getEntrepriseByIdTest() {
 		Optional<EntrepriseEntity> entrepriseFound = entrepriseDAO.findById(1L);
@@ -63,6 +75,11 @@ class EntrepriseDAOTest {
 		verify(entrepriseDAO, times(1)).findById(1L);
 	}
 
+	/**
+	 * Gets the all entreprise test.
+	 *
+	 * @return the all entreprise test
+	 */
 	@Test
 	void getAllEntrepriseTest() {
 		List<EntrepriseEntity> entreprises = entrepriseDAO.findAll();
@@ -71,6 +88,9 @@ class EntrepriseDAOTest {
 		verify(entrepriseDAO, times(1)).findAll();
 	}
 
+	/**
+	 * Adds the entreprise test.
+	 */
 	@Test
 	void addEntrepriseTest() {
 		EntrepriseEntity entity = entrepriseDAO.save(entreprise2);

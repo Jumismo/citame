@@ -26,22 +26,35 @@ import com.jumismo.citame.apiempresas.services.IEmployeeService;
 import com.jumismo.citame.apiempresas.services.impl.EmployeeServiceImpl;
 import com.jumismo.citame.apiempresas.utils.TestData;
 
+/**
+ * The Class EmployeeServiceTest.
+ */
 @SpringBootTest
 public class EmployeeServiceTest {
 
+	/** The employee DAO. */
 	@Mock
 	private IEmployeeDAO employeeDAO;
 	
+	/** The entreprise DAO. */
 	@Mock
 	private IEntrepriseDAO entrepriseDAO;
 	
+	/** The model mapper. */
 	private ModelMapper modelMapper = new ModelMapper();
 	
+	/** The employee service. */
 	private IEmployeeService employeeService;
 	
+	/** The employee 1. */
 	private EmployeeEntity employee1;
 	
 	
+	/**
+	 * Sets the up.
+	 *
+	 * @throws ParseException the parse exception
+	 */
 	@BeforeEach
 	void setUp() throws ParseException{
 		employeeService = new EmployeeServiceImpl(employeeDAO, entrepriseDAO, modelMapper);
@@ -58,6 +71,11 @@ public class EmployeeServiceTest {
 		when(entrepriseDAO.findById(1L)).thenReturn(Optional.of(entreprise1));
 	}
 	
+	/**
+	 * Gets the all employee test.
+	 *
+	 * @return the all employee test
+	 */
 	@Test
 	void getAllEmployeeTest() {
 		List<EmployeeDTO> employees = employeeService.findAll();
@@ -66,6 +84,11 @@ public class EmployeeServiceTest {
 		verify(employeeDAO, times(1)).findAll();
 	}
 	
+	/**
+	 * Gets the employee test.
+	 *
+	 * @return the employee test
+	 */
 	@Test
 	void getEmployeeTest() {
 		EmployeeDTO employee = employeeService.findById(1L);
@@ -74,6 +97,11 @@ public class EmployeeServiceTest {
 		verify(employeeDAO, times(1)).findById(1L);
 	}
 	
+	/**
+	 * Gets the employee not found test.
+	 *
+	 * @return the employee not found test
+	 */
 	@Test
 	void getEmployeeNotFoundTest() {
 		when(employeeDAO.findById(1L)).thenReturn(Optional.empty());
@@ -84,6 +112,11 @@ public class EmployeeServiceTest {
 		verify(employeeDAO, times(1)).findById(1L);
 	}
 	
+	/**
+	 * Adds the employee not found test.
+	 *
+	 * @throws ParseException the parse exception
+	 */
 	@Test
 	void addEmployeeNotFoundTest() throws ParseException {
 		when(entrepriseDAO.findById(1L)).thenReturn(Optional.empty());
@@ -96,6 +129,11 @@ public class EmployeeServiceTest {
 		verify(employeeDAO, times(0)).save(Mockito.any(EmployeeEntity.class));
 	}
 	
+	/**
+	 * Adds the employee test.
+	 *
+	 * @throws ParseException the parse exception
+	 */
 	@Test
 	void addEmployeeTest() throws ParseException {
 		EmployeeDTO employeeDTO = TestData.getEmployeeDTO();
@@ -106,6 +144,9 @@ public class EmployeeServiceTest {
 		verify(employeeDAO, times(1)).save(Mockito.any(EmployeeEntity.class));
 	}
 	
+	/**
+	 * Delete employee test.
+	 */
 	@Test
 	void deleteEmployeeTest() {
 		employeeService.delete(1L);
@@ -114,6 +155,9 @@ public class EmployeeServiceTest {
 		verify(employeeDAO, times(1)).save(Mockito.any(EmployeeEntity.class));
 	}
 	
+	/**
+	 * Delete employee not found test.
+	 */
 	@Test
 	void deleteEmployeeNotFoundTest() {
 		when(employeeDAO.findById(1L)).thenReturn(Optional.empty());

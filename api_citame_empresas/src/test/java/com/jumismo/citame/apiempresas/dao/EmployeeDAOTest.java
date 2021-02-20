@@ -13,14 +13,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.jumismo.citame.apiempresas.entity.EmployeeEntity;
 import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
 
+/**
+ * The Class EmployeeDAOTest.
+ */
 @SpringBootTest
 public class EmployeeDAOTest {
 	
+	/** The employee DAO. */
 	@Mock
 	private IEmployeeDAO employeeDAO;
 	
+	/** The employee 1. */
 	private EmployeeEntity employee1;
 	
+	/**
+	 * Sets the up.
+	 */
 	@BeforeEach
 	void setUp() {
 		EntrepriseEntity entreprise1 = new EntrepriseEntity();
@@ -37,6 +45,9 @@ public class EmployeeDAOTest {
 		when(employeeDAO.save(employee1)).thenReturn(employee1);
 	}
 	
+	/**
+	 * Adds the employee test.
+	 */
 	@Test
 	void addEmployeeTest() {
 		EmployeeEntity entity = employeeDAO.save(employee1);
