@@ -69,6 +69,8 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	 */
 	@Override
 	public void save(EntrepriseDTO empresa) {
+		empresa.setFechaAlta(new Date());
+		empresa.setFechaModificacion(new Date());
 		entrepriseDAO.save(entrepriseMapper.map(empresa, EntrepriseEntity.class));
 	}
 
@@ -90,6 +92,12 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 		}
 	}
 	
+	/**
+	 * Convert to DTO.
+	 *
+	 * @param entity the entity
+	 * @return the entreprise DTO
+	 */
 	private EntrepriseDTO convertToDTO(EntrepriseEntity entity) {
 		return entrepriseMapper.map(entity, EntrepriseDTO.class);
 		

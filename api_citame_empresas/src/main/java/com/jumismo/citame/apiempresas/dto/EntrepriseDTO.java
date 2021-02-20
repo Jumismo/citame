@@ -33,9 +33,17 @@ public class EntrepriseDTO implements Serializable{
 	/** The cif. */
 	private String cif;
 	
+	/** The fecha alta. */
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constantes.FORMATO_FECHA_DD_MM_YYYY)
+	@ApiModelProperty(hidden = true)
 	private Date fechaAlta;
 	
+	/** The fecha modificacion. */
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constantes.FORMATO_FECHA_DD_MM_YYYY)
+	@ApiModelProperty(hidden = true)
+	private Date fechaModificacion;
+	
+	/** The fecha baja. */
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constantes.FORMATO_FECHA_DD_MM_YYYY)
 	private Date fechaBaja;
 

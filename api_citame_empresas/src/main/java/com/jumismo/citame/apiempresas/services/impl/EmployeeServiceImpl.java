@@ -19,25 +19,42 @@ import com.jumismo.citame.apiempresas.services.IEmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The Class EmployeeServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class EmployeeServiceImpl implements IEmployeeService {
 	
+	/** The employee DAO. */
 	private final IEmployeeDAO employeeDAO;
 	
+	/** The entreprise DAO. */
 	private final IEntrepriseDAO entrepriseDAO;
 	
+	/** The mapper. */
 	private final ModelMapper mapper;
 
+	/**
+	 * Find all.
+	 *
+	 * @return the list
+	 */
 	@Override
 	public List<EmployeeDTO> findAll() {
 		return employeeDAO.findAll()
 				.stream()
-				.map(employee -> convertToDTO(employee))
+				.map(this::convertToDTO)
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the employee DTO
+	 */
 	@Override
 	public EmployeeDTO findById(Long id) {
 		Optional<EmployeeEntity> employee = employeeDAO.findById(id);
@@ -48,11 +65,18 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		}
 	}
 
+	/**
+	 * Save.
+	 *
+	 * @param employeeDTO the employee DTO
+	 */
 	@Override
 	public void save(EmployeeDTO employeeDTO) {
 		Optional<EntrepriseEntity> entrepriseEntity = entrepriseDAO.findById(employeeDTO.getEntrepriseId());
 		if(entrepriseEntity.isPresent()) {
 			EmployeeEntity employeeEntity = mapper.map(employeeDTO, EmployeeEntity.class);
+			employeeEntity.setFechaAlta(new Date());
+			employeeEntity.setFechaModificacion(new Date());
 			employeeEntity.setEntreprise(mapper.map(entrepriseEntity.get(), EntrepriseEntity.class));
 			try {
 				employeeDAO.save(employeeEntity);
@@ -64,6 +88,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		}
 	}
 
+	/**
+	 * Delete.
+	 *
+	 * @param id the id
+	 */
 	@Override
 	public void delete(Long id) {
 		Optional<EmployeeEntity> entity = employeeDAO.findById(id);
@@ -75,6 +104,12 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		}
 	}
 	
+	/**
+	 * Convert to DTO.
+	 *
+	 * @param entity the entity
+	 * @return the employee DTO
+	 */
 	private EmployeeDTO convertToDTO(EmployeeEntity entity) {
 		EmployeeDTO employeeDTO = mapper.map(entity, EmployeeDTO.class);
 		employeeDTO.setEntrepriseId(entity.getEntreprise().getId());

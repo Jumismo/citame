@@ -22,15 +22,24 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The Class EntrepriseRestController.
+ */
 @RestController
 @RequestMapping("/api/v1")
 @Slf4j
 @RequiredArgsConstructor
 public class EntrepriseRestController {
 
+	/** The entreprise service. */
 	private final IEntrepriseService entrepriseService;
 
 
+	/**
+	 * Gets the all empresas.
+	 *
+	 * @return the all empresas
+	 */
 	@ApiOperation(value = "Get all entreprise", response = List.class)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Ok!!"), @ApiResponse(code = 404, message = "Not found") })
 	@GetMapping(value = "/entreprises", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,6 +48,12 @@ public class EntrepriseRestController {
 		return entrepriseService.getAllEntreprise();
 	}
 
+	/**
+	 * Gets the empresa.
+	 *
+	 * @param id the id
+	 * @return the empresa
+	 */
 	@ApiOperation(value = "Get entreprise by id", response = EntrepriseEntity.class)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Entreprise found"),
 			@ApiResponse(code = 404, message = "Not found") })
@@ -48,7 +63,12 @@ public class EntrepriseRestController {
 		return entrepriseService.getEntreprise(id);
 	}
 
-	@ApiOperation(value = "Save entreprise", response = Void.class)
+	/**
+	 * Save.
+	 *
+	 * @param empresa the empresa
+	 */
+	@ApiOperation(value = "Save a new entreprise", response = Void.class)
 	@ApiResponses({ @ApiResponse(code = 201, message = "Entreprise created"),
 			@ApiResponse(code = 403, message = "Permission denied"),
 			@ApiResponse(code = 500, message = "Internal server error") })
@@ -57,6 +77,11 @@ public class EntrepriseRestController {
 		entrepriseService.save(empresa);
 	}
 
+	/**
+	 * Delete.
+	 *
+	 * @param idEmpresa the id empresa
+	 */
 	@ApiOperation(value = "Delete entreprise", response = Void.class)
 	@ApiResponses({ @ApiResponse(code = 200, message = "Entreprise created"),
 			@ApiResponse(code = 403, message = "Permission denied"),

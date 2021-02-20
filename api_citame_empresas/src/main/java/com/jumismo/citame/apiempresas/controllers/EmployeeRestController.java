@@ -18,13 +18,22 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * The Class EmployeeRestController.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class EmployeeRestController {
 
+	/** The employee service. */
 	public final IEmployeeService employeeService;
 	
+	/**
+	 * Gets the all employees.
+	 *
+	 * @return the all employees
+	 */
 	@ApiOperation(value = "Get all employees", response = List.class)
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "Successfully", response = List.class),
@@ -36,6 +45,12 @@ public class EmployeeRestController {
 		return employeeService.findAll();
 	}
 	
+	/**
+	 * Gets the employee by id.
+	 *
+	 * @param id the id
+	 * @return the employee by id
+	 */
 	@ApiOperation(value= "Get employee by id", response = EmployeeDTO.class)
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "Successfully", response = EmployeeDTO.class),
@@ -47,7 +62,12 @@ public class EmployeeRestController {
 		return employeeService.findById(id);
 	}
 	
-	@ApiOperation(value = "Save an employee", response = Void.class)
+	/**
+	 * Save employee.
+	 *
+	 * @param employee the employee
+	 */
+	@ApiOperation(value = "Save a new employee", response = Void.class)
 	@ApiResponses({
 		@ApiResponse(code = 201, message = "Successfully"),
 		@ApiResponse(code = 404, message = "Not found"),
@@ -58,6 +78,11 @@ public class EmployeeRestController {
 		employeeService.save(employee);
 	}
 	
+	/**
+	 * Delete employee.
+	 *
+	 * @param id the id
+	 */
 	@ApiOperation(value = "Delete an employee", response = Void.class)
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "Successfully"),

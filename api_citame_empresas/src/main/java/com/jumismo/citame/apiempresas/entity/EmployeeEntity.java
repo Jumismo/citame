@@ -19,6 +19,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * The Class EmployeeEntity.
+ */
 @Entity
 @Table(name = "employer")
 @Getter
@@ -26,28 +29,40 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EmployeeEntity {
 
+	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	/** The name. */
 	@NotNull
 	@NotBlank
 	private String name;
 
+	/** The phone. */
 	@NotNull
 	@NotBlank
 	private String phone;
 
+	/** The is owner. */
 	@NotNull
 	private boolean isOwner;
 	
+	/** The fecha alta. */
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date fechaAlta;
 	
+	/** The fecha modificacion. */
+	@Temporal(TemporalType.DATE)
+	private Date fechaModificacion;
+
+	
+	/** The fecha baja. */
 	@Temporal(TemporalType.DATE)
 	private Date fechaBaja;
 
+	/** The entreprise. */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn
 	private EntrepriseEntity entreprise;

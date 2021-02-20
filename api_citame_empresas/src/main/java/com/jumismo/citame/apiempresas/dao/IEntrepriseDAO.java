@@ -5,6 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
 
+/**
+ * The Interface IEntrepriseDAO.
+ */
 @Repository
 public interface IEntrepriseDAO extends JpaRepository<EntrepriseEntity, Long> {
 }
