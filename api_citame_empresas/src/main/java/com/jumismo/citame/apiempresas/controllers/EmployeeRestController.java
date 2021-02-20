@@ -2,13 +2,16 @@ package com.jumismo.citame.apiempresas.controllers;
 
 import java.util.List;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 
 import com.jumismo.citame.apiempresas.dto.EmployeeDTO;
 import com.jumismo.citame.apiempresas.services.IEmployeeService;
@@ -76,6 +79,24 @@ public class EmployeeRestController {
 	@PostMapping("/employees")
 	public void saveEmployee(@RequestBody EmployeeDTO employee) {
 		employeeService.save(employee);
+	}
+	
+	/**
+	 * Update employee.
+	 *
+	 * @param id the id
+	 * @param employee the employee
+	 * @return the employee DTO
+	 */
+	@ApiOperation(value = "Update an employee", response = EmployeeDTO.class)
+	@ApiResponses({
+		@ApiResponse(code = 201, message = "Successfully", response = EmployeeDTO.class),
+		@ApiResponse(code = 404, message = "Employee not found", response = NotFoundException.class),
+		@ApiResponse(code = 500, message = "Internal server error", response = InternalServerError.class)
+	})
+	@PutMapping("/employees/{id}")
+	public EmployeeDTO updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employee) {
+		return employeeService.update(id, employee);
 	}
 	
 	/**

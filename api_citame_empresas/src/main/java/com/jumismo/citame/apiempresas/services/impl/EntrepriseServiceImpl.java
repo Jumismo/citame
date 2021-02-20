@@ -30,6 +30,8 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	
 	/** The entreprise mapper. */
 	private final ModelMapper entrepriseMapper;
+	
+	private static final String ENTREPRISE_NOT_FOUND = "La empresa no ha sido encontrada";
 
 	/**
 	 * Gets the all empresas.
@@ -58,6 +60,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 			return convertToDTO(entrepriseEntity.get());
 		}
 		else {
+			log.info(ENTREPRISE_NOT_FOUND);
 			return new EntrepriseDTO();
 		}
 	}
@@ -71,9 +74,30 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	public void save(EntrepriseDTO empresa) {
 		empresa.setFechaAlta(new Date());
 		empresa.setFechaModificacion(new Date());
+		empresa.setFechaBaja(null);
 		entrepriseDAO.save(entrepriseMapper.map(empresa, EntrepriseEntity.class));
 	}
 
+	
+	/**
+	 * Update.
+	 *
+	 * @param id the id
+	 * @param empresa the empresa
+	 * @return the entreprise DTO
+	 */
+	@Override
+	public EntrepriseDTO update(Long id, EntrepriseDTO empresa) {
+		Optional<EntrepriseEntity> entity = entrepriseDAO.findById(id);
+		if(entity.isPresent()) {
+			return convertToDTO(entrepriseDAO.save(updateDataEntity(entity.get(), empresa)));
+		}else {
+			log.info(ENTREPRISE_NOT_FOUND);
+		}
+		return null;
+	}
+
+	
 	/**
 	 * Delete.
 	 *
@@ -88,7 +112,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 			entrepriseDAO.save(entity.get());
 		}
 		else {
-			log.error("La empresa " + id + " no está registrada.");
+			log.error(ENTREPRISE_NOT_FOUND);
 		}
 	}
 	
@@ -101,6 +125,13 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	private EntrepriseDTO convertToDTO(EntrepriseEntity entity) {
 		return entrepriseMapper.map(entity, EntrepriseDTO.class);
 		
+	}
+
+	private EntrepriseEntity updateDataEntity(EntrepriseEntity entity, EntrepriseDTO entrepriseDTO) {
+		entity.setCif(entrepriseDTO.getCif());
+		entity.setName(entrepriseDTO.getName());
+		entity.setFechaModificacion(new Date());
+		return entity;
 	}
 
 }

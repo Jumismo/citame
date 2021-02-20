@@ -35,6 +35,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	
 	/** The mapper. */
 	private final ModelMapper mapper;
+	
+	private static final String EMPLOYEE_NOT_FOUND = "El empleado no ha sido encontrado";
 
 	/**
 	 * Find all.
@@ -61,6 +63,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		if(employee.isPresent()) {
 			return convertToDTO(employee.get());
 		}else {
+			log.info(EMPLOYEE_NOT_FOUND);
 			return new EmployeeDTO();
 		}
 	}
@@ -77,6 +80,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			EmployeeEntity employeeEntity = mapper.map(employeeDTO, EmployeeEntity.class);
 			employeeEntity.setFechaAlta(new Date());
 			employeeEntity.setFechaModificacion(new Date());
+			employeeEntity.setFechaBaja(null);
 			employeeEntity.setEntreprise(mapper.map(entrepriseEntity.get(), EntrepriseEntity.class));
 			try {
 				employeeDAO.save(employeeEntity);
@@ -100,7 +104,26 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			entity.get().setFechaBaja(new Date());
 			employeeDAO.save(entity.get());
 		}else {
-			log.error("El empleado " + id + " no se encuentra registrado");
+			log.error(EMPLOYEE_NOT_FOUND);
+		}
+	}
+	
+
+	/**
+	 * Update.
+	 *
+	 * @param id the id
+	 * @param employee the employee
+	 * @return the employee DTO
+	 */
+	@Override
+	public EmployeeDTO update(Long id, EmployeeDTO employee) {
+		Optional<EmployeeEntity> entity = employeeDAO.findById(id);
+		if(entity.isPresent()) {
+			return convertToDTO(employeeDAO.save(updateDataEntity(entity.get(), employee)));
+		}else {
+			log.error(EMPLOYEE_NOT_FOUND);
+			return null;
 		}
 	}
 	
@@ -115,5 +138,21 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		employeeDTO.setEntrepriseId(entity.getEntreprise().getId());
 		return employeeDTO;
 	}
+	
+	/**
+	 * Convert to entity.
+	 *
+	 * @param entity the entity
+	 * @param employeeDTO the employee DTO
+	 * @return the employee entity
+	 */
+	private EmployeeEntity updateDataEntity(EmployeeEntity entity, EmployeeDTO employeeDTO) {
+		entity.setName(employeeDTO.getName());
+		entity.setOwner(employeeDTO.isOwner());
+		entity.setPhone(employeeDTO.getPhone());
+		entity.setFechaModificacion(new Date());
+		return entity;
+	}
+
 
 }

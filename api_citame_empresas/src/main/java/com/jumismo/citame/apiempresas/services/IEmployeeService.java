@@ -37,4 +37,13 @@ public interface IEmployeeService {
 	 * @param id the id
 	 */
 	void delete(Long id);
+
+	/**
+	 * Update.
+	 *
+	 * @param id the id
+	 * @param employee the employee
+	 * @return 
+	 */
+	EmployeeDTO update(Long id, EmployeeDTO employee);
 }

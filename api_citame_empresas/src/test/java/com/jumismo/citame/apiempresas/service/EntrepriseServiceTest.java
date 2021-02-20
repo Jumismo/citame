@@ -117,6 +117,33 @@ class EntrepriseServiceTest {
 		verify(entrepriseDAO, times(1)).save(Mockito.any(EntrepriseEntity.class));
 	}
 	
+	
+	/**
+	 * Update entreprise not found test.
+	 *
+	 * @throws ParseException the parse exception
+	 */
+	@Test
+	void updateEntrepriseNotFoundTest() throws ParseException {
+		when(entrepriseDAO.findById(1L)).thenReturn(Optional.empty());
+		
+		entrepriseService.update(1L, TestData.getEntrepriseDTO());
+		
+		verify(entrepriseDAO, times(0)).save(Mockito.any(EntrepriseEntity.class));
+	}
+	
+	/**
+	 * Update entreprise test.
+	 *
+	 * @throws ParseException the parse exception
+	 */
+	@Test
+	void updateEntrepriseTest() throws ParseException {
+		entrepriseService.update(1L, TestData.getEntrepriseDTO());
+		
+		verify(entrepriseDAO, times(1)).save(Mockito.any(EntrepriseEntity.class));
+	}
+	
 	/**
 	 * Delete entreprise test.
 	 */

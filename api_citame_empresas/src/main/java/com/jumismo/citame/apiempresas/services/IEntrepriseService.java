@@ -38,4 +38,13 @@ public interface IEntrepriseService {
 	 */
 	void delete(Long id);
 
+	/**
+	 * Update.
+	 *
+	 * @param id the id
+	 * @param empresa the empresa
+	 * @return the entreprise DTO
+	 */
+	EntrepriseDTO update(Long id, EntrepriseDTO empresa);
+
 }

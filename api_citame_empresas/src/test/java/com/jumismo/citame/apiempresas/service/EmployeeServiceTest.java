@@ -144,6 +144,30 @@ public class EmployeeServiceTest {
 		verify(employeeDAO, times(1)).save(Mockito.any(EmployeeEntity.class));
 	}
 	
+	@Test
+	void updateEmployeeTest() throws ParseException {
+		EmployeeDTO employeeDTO = TestData.getEmployeeDTO();
+		employeeDTO.setEntrepriseId(1L);
+		
+		EmployeeDTO respuesta = employeeService.update(1L, employeeDTO);
+
+		assertEquals(employeeDTO.getName(), respuesta.getName());
+		verify(employeeDAO, times(1)).findById(1L);
+		verify(employeeDAO, times(1)).save(Mockito.any(EmployeeEntity.class));
+	}
+	
+	@Test
+	void updateEmployeeNotFoundTest() throws ParseException {
+		when(employeeDAO.findById(1L)).thenReturn(Optional.empty());
+		EmployeeDTO employeeDTO = TestData.getEmployeeDTO();
+		employeeDTO.setEntrepriseId(1L);
+		
+		employeeService.update(1L, employeeDTO);
+		
+		verify(employeeDAO, times(1)).findById(1L);
+		verify(employeeDAO, times(0)).save(Mockito.any(EmployeeEntity.class));
+	}
+	
 	/**
 	 * Delete employee test.
 	 */
