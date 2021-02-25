@@ -2,13 +2,16 @@
 
 import java.util.List;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 
 import com.jumismo.citame.apiempresas.dto.EmployeeDTO;
 import com.jumismo.citame.apiempresas.services.IEmployeeService;
@@ -18,13 +21,22 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * The Class EmployeeRestController.
+ */
 @RestController
-<span class="fc" id="L22">@RequiredArgsConstructor</span>
+<span class="fc" id="L28">@RequiredArgsConstructor</span>
 @RequestMapping(&quot;/api/v1&quot;)
 public class EmployeeRestController {
 
-	public final IEmployeeService employeeService;
+	/** The employee service. */
+	private final IEmployeeService employeeService;
 	
+	/**
+	 * Gets the all employees.
+	 *
+	 * @return the all employees
+	 */
 	@ApiOperation(value = &quot;Get all employees&quot;, response = List.class)
 	@ApiResponses({
 			@ApiResponse(code = 200, message = &quot;Successfully&quot;, response = List.class),
@@ -33,9 +45,15 @@ public class EmployeeRestController {
 			})
 	@GetMapping(&quot;/employees&quot;)
 	public List&lt;EmployeeDTO&gt; getAllEmployees(){
-<span class="nc" id="L36">		return employeeService.findAll();</span>
+<span class="nc" id="L48">		return employeeService.findAll();</span>
 	}
 	
+	/**
+	 * Gets the employee by id.
+	 *
+	 * @param id the id
+	 * @return the employee by id
+	 */
 	@ApiOperation(value= &quot;Get employee by id&quot;, response = EmployeeDTO.class)
 	@ApiResponses({
 		@ApiResponse(code = 200, message = &quot;Successfully&quot;, response = EmployeeDTO.class),
@@ -44,10 +62,15 @@ public class EmployeeRestController {
 	})
 	@GetMapping(&quot;/employees/{id}&quot;)
 	public EmployeeDTO getEmployeeById(@PathVariable Long id) {
-<span class="nc" id="L47">		return employeeService.findById(id);</span>
+<span class="nc" id="L65">		return employeeService.findById(id);</span>
 	}
 	
-	@ApiOperation(value = &quot;Save an employee&quot;, response = Void.class)
+	/**
+	 * Save employee.
+	 *
+	 * @param employee the employee
+	 */
+	@ApiOperation(value = &quot;Save a new employee&quot;, response = Void.class)
 	@ApiResponses({
 		@ApiResponse(code = 201, message = &quot;Successfully&quot;),
 		@ApiResponse(code = 404, message = &quot;Not found&quot;),
@@ -55,9 +78,32 @@ public class EmployeeRestController {
 	})
 	@PostMapping(&quot;/employees&quot;)
 	public void saveEmployee(@RequestBody EmployeeDTO employee) {
-<span class="nc" id="L58">		employeeService.save(employee);</span>
-<span class="nc" id="L59">	}</span>
+<span class="nc" id="L81">		employeeService.save(employee);</span>
+<span class="nc" id="L82">	}</span>
 	
+	/**
+	 * Update employee.
+	 *
+	 * @param id the id
+	 * @param employee the employee
+	 * @return the employee DTO
+	 */
+	@ApiOperation(value = &quot;Update an employee&quot;, response = EmployeeDTO.class)
+	@ApiResponses({
+		@ApiResponse(code = 201, message = &quot;Successfully&quot;, response = EmployeeDTO.class),
+		@ApiResponse(code = 404, message = &quot;Employee not found&quot;, response = NotFoundException.class),
+		@ApiResponse(code = 500, message = &quot;Internal server error&quot;, response = InternalServerError.class)
+	})
+	@PutMapping(&quot;/employees/{id}&quot;)
+	public EmployeeDTO updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employee) {
+<span class="nc" id="L99">		return employeeService.update(id, employee);</span>
+	}
+	
+	/**
+	 * Delete employee.
+	 *
+	 * @param id the id
+	 */
 	@ApiOperation(value = &quot;Delete an employee&quot;, response = Void.class)
 	@ApiResponses({
 		@ApiResponse(code = 200, message = &quot;Successfully&quot;),
@@ -66,7 +112,7 @@ public class EmployeeRestController {
 	})
 	@DeleteMapping(&quot;/employees/{id}&quot;)
 	public void deleteEmployee(@PathVariable Long id) {
-<span class="nc" id="L69">		employeeService.delete(id);</span>
-<span class="nc" id="L70">	}</span>
+<span class="nc" id="L115">		employeeService.delete(id);</span>
+<span class="nc" id="L116">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

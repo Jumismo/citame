@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntrepriseDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api_citame_empresas</a> &gt; <a href="index.source.html" class="el_package">com.jumismo.citame.apiempresas.dto</a> &gt; <span class="el_source">EntrepriseDTO.java</span></div><h1>EntrepriseDTO.java</h1><pre class="source lang-java linenums">package com.jumismo.citame.apiempresas.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jumismo.citame.apiempresas.utils.Constantes;
+
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * The Class EntrepriseDTO.
  */
-<span class="pc bnc" id="L14" title="All 38 branches missed.">@Data</span>
-<span class="nc" id="L15">@AllArgsConstructor</span>
-<span class="fc" id="L16">@NoArgsConstructor</span>
+<span class="fc" id="L18">@NoArgsConstructor</span>
+@Getter
+<span class="fc" id="L20">@Setter</span>
 public class EntrepriseDTO implements Serializable{
 	
 	/** The Constant serialVersionUID. */
@@ -21,15 +25,29 @@ public class EntrepriseDTO implements Serializable{
 
 	/** The id. */
 	@ApiModelProperty(hidden = true)
-<span class="nc" id="L24">	private Long id;</span>
+<span class="fc" id="L28">	private Long id;</span>
 
 	/** The name. */
-<span class="nc" id="L27">	private String name;</span>
+<span class="fc" id="L31">	private String name;</span>
 
 	/** The cif. */
-<span class="nc" id="L30">	private String cif;</span>
+<span class="fc" id="L34">	private String cif;</span>
+	
+	/** The fecha alta. */
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constantes.FORMATO_FECHA_DD_MM_YYYY)
+	@ApiModelProperty(hidden = true)
+<span class="fc" id="L39">	private Date fechaAlta;</span>
+	
+	/** The fecha modificacion. */
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constantes.FORMATO_FECHA_DD_MM_YYYY)
+	@ApiModelProperty(hidden = true)
+<span class="fc" id="L44">	private Date fechaModificacion;</span>
+	
+	/** The fecha baja. */
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constantes.FORMATO_FECHA_DD_MM_YYYY)
+<span class="fc" id="L48">	private Date fechaBaja;</span>
 
 	/** The list employer. */
-<span class="nc" id="L33">	private Set&lt;EmployeeDTO&gt; listEmployer;</span>
+<span class="fc" id="L51">	private Set&lt;EmployeeDTO&gt; listEmployer;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

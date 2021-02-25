@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntrepriseServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api_citame_empresas</a> &gt; <a href="index.source.html" class="el_package">com.jumismo.citame.apiempresas.services.impl</a> &gt; <span class="el_source">EntrepriseServiceImpl.java</span></div><h1>EntrepriseServiceImpl.java</h1><pre class="source lang-java linenums">package com.jumismo.citame.apiempresas.services.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,12 +15,14 @@ import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
 import com.jumismo.citame.apiempresas.services.IEntrepriseService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The Class EmpresaServiceImpl.
  */
 @Service
-<span class="fc" id="L22">@RequiredArgsConstructor(onConstructor = @__(@Autowired))</span>
+<span class="fc" id="L24">@RequiredArgsConstructor(onConstructor = @__(@Autowired))</span>
+<span class="fc" id="L25">@Slf4j</span>
 public class EntrepriseServiceImpl implements IEntrepriseService {
 
 	/** The empresa DAO. */
@@ -27,6 +30,8 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	
 	/** The entreprise mapper. */
 	private final ModelMapper entrepriseMapper;
+	
+	private static final String ENTREPRISE_NOT_FOUND = &quot;La empresa no ha sido encontrada&quot;;
 
 	/**
 	 * Gets the all empresas.
@@ -35,11 +40,11 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	 */
 	@Override
 	public List&lt;EntrepriseDTO&gt; getAllEntreprise() {
-<span class="fc" id="L38">		List&lt;EntrepriseEntity&gt; lista = entrepriseDAO.findAll();</span>
-<span class="fc" id="L39">		return lista</span>
-<span class="fc" id="L40">				.stream()</span>
-<span class="fc" id="L41">				.map(entreprise -&gt; convertToDTO(entreprise))</span>
-<span class="fc" id="L42">				.collect(Collectors.toList());</span>
+<span class="fc" id="L43">		List&lt;EntrepriseEntity&gt; lista = entrepriseDAO.findAll();</span>
+<span class="fc" id="L44">		return lista</span>
+<span class="fc" id="L45">				.stream()</span>
+<span class="fc" id="L46">				.map(this::convertToDTO)</span>
+<span class="fc" id="L47">				.collect(Collectors.toList());</span>
 	}
 
 	/**
@@ -50,12 +55,13 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	 */
 	@Override
 	public EntrepriseDTO getEntreprise(Long id) {
-<span class="nc" id="L53">		Optional&lt;EntrepriseEntity&gt; entrepriseEntity = entrepriseDAO.findById(id);</span>
-<span class="nc bnc" id="L54" title="All 2 branches missed.">		if(entrepriseEntity.isPresent()) {</span>
-<span class="nc" id="L55">			return convertToDTO(entrepriseEntity.get());</span>
+<span class="fc" id="L58">		Optional&lt;EntrepriseEntity&gt; entrepriseEntity = entrepriseDAO.findById(id);</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">		if(entrepriseEntity.isPresent()) {</span>
+<span class="fc" id="L60">			return convertToDTO(entrepriseEntity.get());</span>
 		}
 		else {
-<span class="nc" id="L58">			return new EntrepriseDTO();</span>
+<span class="fc" id="L63">			log.info(ENTREPRISE_NOT_FOUND);</span>
+<span class="fc" id="L64">			return new EntrepriseDTO();</span>
 		}
 	}
 
@@ -66,9 +72,32 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	 */
 	@Override
 	public void save(EntrepriseDTO empresa) {
-<span class="nc" id="L69">		entrepriseDAO.save(entrepriseMapper.map(empresa, EntrepriseEntity.class));</span>
-<span class="nc" id="L70">	}</span>
+<span class="fc" id="L75">		empresa.setFechaAlta(new Date());</span>
+<span class="fc" id="L76">		empresa.setFechaModificacion(new Date());</span>
+<span class="fc" id="L77">		empresa.setFechaBaja(null);</span>
+<span class="fc" id="L78">		entrepriseDAO.save(entrepriseMapper.map(empresa, EntrepriseEntity.class));</span>
+<span class="fc" id="L79">	}</span>
 
+	
+	/**
+	 * Update.
+	 *
+	 * @param id the id
+	 * @param empresa the empresa
+	 * @return the entreprise DTO
+	 */
+	@Override
+	public EntrepriseDTO update(Long id, EntrepriseDTO empresa) {
+<span class="fc" id="L91">		Optional&lt;EntrepriseEntity&gt; entity = entrepriseDAO.findById(id);</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">		if(entity.isPresent()) {</span>
+<span class="fc" id="L93">			return convertToDTO(entrepriseDAO.save(updateDataEntity(entity.get(), empresa)));</span>
+		}else {
+<span class="fc" id="L95">			log.info(ENTREPRISE_NOT_FOUND);</span>
+		}
+<span class="fc" id="L97">		return null;</span>
+	}
+
+	
 	/**
 	 * Delete.
 	 *
@@ -77,12 +106,32 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	 */
 	@Override
 	public void delete(Long id) {
-<span class="nc" id="L80">		entrepriseDAO.deleteById(id);</span>
-<span class="nc" id="L81">	}</span>
+<span class="fc" id="L109">		Optional&lt;EntrepriseEntity&gt; entity = entrepriseDAO.findById(id);</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">		if(entity.isPresent()) {</span>
+<span class="fc" id="L111">			entity.get().setFechaBaja(new Date());</span>
+<span class="fc" id="L112">			entrepriseDAO.save(entity.get());</span>
+		}
+		else {
+<span class="fc" id="L115">			log.error(ENTREPRISE_NOT_FOUND);</span>
+		}
+<span class="fc" id="L117">	}</span>
 	
+	/**
+	 * Convert to DTO.
+	 *
+	 * @param entity the entity
+	 * @return the entreprise DTO
+	 */
 	private EntrepriseDTO convertToDTO(EntrepriseEntity entity) {
-<span class="fc" id="L84">		EntrepriseDTO entrepriseDTO = entrepriseMapper.map(entity, EntrepriseDTO.class);</span>
-<span class="fc" id="L85">		return entrepriseDTO;</span>
+<span class="fc" id="L126">		return entrepriseMapper.map(entity, EntrepriseDTO.class);</span>
+		
+	}
+
+	private EntrepriseEntity updateDataEntity(EntrepriseEntity entity, EntrepriseDTO entrepriseDTO) {
+<span class="fc" id="L131">		entity.setCif(entrepriseDTO.getCif());</span>
+<span class="fc" id="L132">		entity.setName(entrepriseDTO.getName());</span>
+<span class="fc" id="L133">		entity.setFechaModificacion(new Date());</span>
+<span class="fc" id="L134">		return entity;</span>
 	}
 
 }
