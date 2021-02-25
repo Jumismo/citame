@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">1</div>
+<div class="counter">9</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.055s</div>
+<div class="counter">0.175s</div>
 <p>duration</p>
 </div>
 </td>
@@ -78,8 +78,48 @@
 </tr>
 </thead>
 <tr>
+<td class="success">addEmployeeNotFoundTest()</td>
+<td class="success">0.009s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">addEmployeeTest()</td>
-<td class="success">0.055s</td>
+<td class="success">0.018s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">deleteEmployeeNotFoundTest()</td>
+<td class="success">0.011s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">deleteEmployeeTest()</td>
+<td class="success">0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getAllEmployeeTest()</td>
+<td class="success">0.012s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getEmployeeNotFoundTest()</td>
+<td class="success">0.009s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getEmployeeTest()</td>
+<td class="success">0.061s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">updateEmployeeNotFoundTest()</td>
+<td class="success">0.034s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">updateEmployeeTest()</td>
+<td class="success">0.014s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -87,12 +127,16 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2021-02-07 02:02:35.677  INFO 2280 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.jumismo.citame.apiempresas.service.EmployeeServiceTest], using SpringBootContextLoader
-2021-02-07 02:02:35.679  INFO 2280 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.jumismo.citame.apiempresas.service.EmployeeServiceTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-2021-02-07 02:02:35.679  INFO 2280 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.jumismo.citame.apiempresas.service.EmployeeServiceTest]: EmployeeServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2021-02-07 02:02:35.687  INFO 2280 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.jumismo.citame.apiempresas.ApiCitameEsmpresasApplication for test class com.jumismo.citame.apiempresas.service.EmployeeServiceTest
-2021-02-07 02:02:35.690  INFO 2280 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
-2021-02-07 02:02:35.691  INFO 2280 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@644dbbc5, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@e7ed21e, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@7bca0589, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@29bbbd24, org.springframework.test.context.support.DirtiesContextTestExecutionListener@2021b845, org.springframework.test.context.transaction.TransactionalTestExecutionListener@58b7707d, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@737ad0af, org.springframework.test.context.event.EventPublishingTestExecutionListener@7dc1179, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@2a127257, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@49c5cbf0, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@6c9f95cf, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@baf06fc, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@32165d14, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@55eb9aed]
+<pre>2021-02-25 21:57:49.918  INFO 14840 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.jumismo.citame.apiempresas.service.EmployeeServiceTest], using SpringBootContextLoader
+2021-02-25 21:57:49.920  INFO 14840 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.jumismo.citame.apiempresas.service.EmployeeServiceTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2021-02-25 21:57:49.920  INFO 14840 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.jumismo.citame.apiempresas.service.EmployeeServiceTest]: EmployeeServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2021-02-25 21:57:49.928  INFO 14840 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.jumismo.citame.apiempresas.ApiCitameEsmpresasApplication for test class com.jumismo.citame.apiempresas.service.EmployeeServiceTest
+2021-02-25 21:57:49.931  INFO 14840 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2021-02-25 21:57:49.932  INFO 14840 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@6d5499fc, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@1e47fbe7, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@49ca78c9, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@21e26252, org.springframework.test.context.support.DirtiesContextTestExecutionListener@683094eb, org.springframework.test.context.transaction.TransactionalTestExecutionListener@4989d2c9, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@531ff701, org.springframework.test.context.event.EventPublishingTestExecutionListener@615dffc2, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@da6b8ce, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@a3e2c29, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@26357590, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@28982d7b, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@1040906e, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@6be4a92b]
+2021-02-25 21:57:49.966 ERROR 14840 --- [    Test worker] c.j.c.a.s.impl.EmployeeServiceImpl       : El empleado no ha sido encontrado
+2021-02-25 21:57:50.040 ERROR 14840 --- [    Test worker] c.j.c.a.s.impl.EmployeeServiceImpl       : El empleado no ha sido encontrado
+2021-02-25 21:57:50.072 ERROR 14840 --- [    Test worker] c.j.c.a.s.impl.EmployeeServiceImpl       : Error al obtener la empresa con ID: 1
+2021-02-25 21:57:50.082  INFO 14840 --- [    Test worker] c.j.c.a.s.impl.EmployeeServiceImpl       : El empleado no ha sido encontrado
 </pre>
 </span>
 </div>
@@ -104,7 +148,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.4.1</a> at 7 feb. 2021 2:02:36</p>
+<a href="http://www.gradle.org">Gradle 6.4.1</a> at 25 feb. 2021 21:57:50</p>
 </div>
 </div>
 </body>

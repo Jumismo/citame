@@ -35,12 +35,10 @@ public class EmployeeEntity {
 	private Long id;
 
 	/** The name. */
-	@NotNull
 	@NotBlank
 	private String name;
 
 	/** The phone. */
-	@NotNull
 	@NotBlank
 	private String phone;
 

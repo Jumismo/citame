@@ -1,35 +1,30 @@
 package com.jumismo.citame.apiempresas.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * The Class EntrepriseEntity.
+ * The Class CustomerEntity.
  */
 @Entity
-@Table(name = "entreprise")
+@Table(name = "customer")
 @Getter
 @Setter
 @NoArgsConstructor
-public class EntrepriseEntity {
+public class CustomerEntity {
 
 	/** The id. */
 	@Id
@@ -40,12 +35,20 @@ public class EntrepriseEntity {
 	@NotBlank
 	private String name;
 
-	/** The cif. */
+	/** The phone. */
 	@NotBlank
-	private String cif;
+	private String phone;
+	
+	/** The address. */
+	@NotBlank
+	private String address;
+	
+	/** The mail. */
+	@NotBlank
+	@Email
+	private String mail;
 	
 	/** The fecha alta. */
-	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date fechaAlta;
 	
@@ -56,10 +59,4 @@ public class EntrepriseEntity {
 	/** The fecha baja. */
 	@Temporal(TemporalType.DATE)
 	private Date fechaBaja;
-
-	/** The list employer. */
-	@OneToMany(mappedBy = "entreprise", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<EmployeeEntity> listEmployer = new ArrayList<>();
-
-
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmployeeServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api_citame_empresas</a> &gt; <a href="index.source.html" class="el_package">com.jumismo.citame.apiempresas.services.impl</a> &gt; <span class="el_source">EmployeeServiceImpl.java</span></div><h1>EmployeeServiceImpl.java</h1><pre class="source lang-java linenums">package com.jumismo.citame.apiempresas.services.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,65 +17,143 @@ import com.jumismo.citame.apiempresas.entity.EntrepriseEntity;
 import com.jumismo.citame.apiempresas.services.IEmployeeService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The Class EmployeeServiceImpl.
+ */
 @Service
-<span class="fc" id="L21">@RequiredArgsConstructor(onConstructor = @__(@Autowired))</span>
+<span class="fc" id="L26">@RequiredArgsConstructor(onConstructor = @__(@Autowired))</span>
+<span class="fc" id="L27">@Slf4j</span>
 public class EmployeeServiceImpl implements IEmployeeService {
 	
+	/** The employee DAO. */
 	private final IEmployeeDAO employeeDAO;
 	
+	/** The entreprise DAO. */
 	private final IEntrepriseDAO entrepriseDAO;
 	
+	/** The mapper. */
 	private final ModelMapper mapper;
+	
+	private static final String EMPLOYEE_NOT_FOUND = &quot;El empleado no ha sido encontrado&quot;;
 
+	/**
+	 * Find all.
+	 *
+	 * @return the list
+	 */
 	@Override
 	public List&lt;EmployeeDTO&gt; findAll() {
-<span class="nc" id="L32">		return employeeDAO.findAll()</span>
-<span class="nc" id="L33">				.stream()</span>
-<span class="nc" id="L34">				.map(employee -&gt; convertToDTO(employee))</span>
-<span class="nc" id="L35">				.collect(Collectors.toList());</span>
+<span class="fc" id="L48">		return employeeDAO.findAll()</span>
+<span class="fc" id="L49">				.stream()</span>
+<span class="fc" id="L50">				.map(this::convertToDTO)</span>
+<span class="fc" id="L51">				.collect(Collectors.toList());</span>
 	}
 
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the employee DTO
+	 */
 	@Override
 	public EmployeeDTO findById(Long id) {
-<span class="nc" id="L40">		Optional&lt;EmployeeEntity&gt; employee = employeeDAO.findById(id);</span>
-<span class="nc bnc" id="L41" title="All 2 branches missed.">		if(employee.isPresent()) {</span>
-<span class="nc" id="L42">			return convertToDTO(employee.get());</span>
+<span class="fc" id="L62">		Optional&lt;EmployeeEntity&gt; employee = employeeDAO.findById(id);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">		if(employee.isPresent()) {</span>
+<span class="fc" id="L64">			return convertToDTO(employee.get());</span>
 		}else {
-<span class="nc" id="L44">			return new EmployeeDTO();</span>
+<span class="fc" id="L66">			log.info(EMPLOYEE_NOT_FOUND);</span>
+<span class="fc" id="L67">			return new EmployeeDTO();</span>
 		}
 	}
 
+	/**
+	 * Save.
+	 *
+	 * @param employeeDTO the employee DTO
+	 */
 	@Override
 	public void save(EmployeeDTO employeeDTO) {
-<span class="fc" id="L50">		Optional&lt;EntrepriseEntity&gt; entrepriseEntity = entrepriseDAO.findById(employeeDTO.getEntrepriseId());</span>
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">		if(entrepriseEntity.isPresent()) {</span>
-<span class="fc" id="L52">			EmployeeEntity employeeEntity = mapper.map(employeeDTO, EmployeeEntity.class);</span>
-<span class="fc" id="L53">			employeeEntity.setEntreprise(mapper.map(entrepriseEntity.get(), EntrepriseEntity.class));</span>
+<span class="fc" id="L78">		Optional&lt;EntrepriseEntity&gt; entrepriseEntity = entrepriseDAO.findById(employeeDTO.getEntrepriseId());</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">		if(entrepriseEntity.isPresent()) {</span>
+<span class="fc" id="L80">			EmployeeEntity employeeEntity = mapper.map(employeeDTO, EmployeeEntity.class);</span>
+<span class="fc" id="L81">			employeeEntity.setFechaAlta(new Date());</span>
+<span class="fc" id="L82">			employeeEntity.setFechaModificacion(new Date());</span>
+<span class="fc" id="L83">			employeeEntity.setFechaBaja(null);</span>
+<span class="fc" id="L84">			employeeEntity.setEntreprise(mapper.map(entrepriseEntity.get(), EntrepriseEntity.class));</span>
 			try {
-<span class="fc" id="L55">				employeeDAO.save(employeeEntity);</span>
-//				if(employeeDAO.save(employeeEntity).getId() != null) {
-//					entrepriseEntity.get().getListEmployer().add(employeeEntity);
-//					entrepriseDAO.save(entrepriseEntity.get());
-//				}
-<span class="nc" id="L60">			}catch (Exception e) {</span>
-<span class="nc" id="L61">				e.printStackTrace();</span>
-<span class="fc" id="L62">			}</span>
-		}else {
-			//TODO: Add exception
+<span class="fc" id="L86">				employeeDAO.save(employeeEntity);</span>
+<span class="nc" id="L87">			}catch (Exception e) {</span>
+<span class="nc" id="L88">				log.error(&quot;Error al registrar al empleado: &quot; + employeeDTO.getName());</span>
+<span class="fc" id="L89">			}</span>
+<span class="fc" id="L90">		}else {</span>
+<span class="fc" id="L91">			log.error(&quot;Error al obtener la empresa con ID: &quot; + employeeDTO.getEntrepriseId());</span>
 		}
-<span class="fc" id="L66">	}</span>
+<span class="fc" id="L93">	}</span>
 
+	/**
+	 * Delete.
+	 *
+	 * @param id the id
+	 */
 	@Override
 	public void delete(Long id) {
-<span class="nc" id="L70">		employeeDAO.deleteById(id);</span>
-<span class="nc" id="L71">	}</span>
+<span class="fc" id="L102">		Optional&lt;EmployeeEntity&gt; entity = employeeDAO.findById(id);</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">		if(entity.isPresent()) {</span>
+<span class="fc" id="L104">			entity.get().setFechaBaja(new Date());</span>
+<span class="fc" id="L105">			employeeDAO.save(entity.get());</span>
+		}else {
+<span class="fc" id="L107">			log.error(EMPLOYEE_NOT_FOUND);</span>
+		}
+<span class="fc" id="L109">	}</span>
 	
-	private EmployeeDTO convertToDTO(EmployeeEntity entity) {
-<span class="nc" id="L74">		EmployeeDTO employeeDTO = mapper.map(entity, EmployeeDTO.class);</span>
-<span class="nc" id="L75">		employeeDTO.setEntrepriseId(entity.getEntreprise().getId());</span>
-<span class="nc" id="L76">		return employeeDTO;</span>
+
+	/**
+	 * Update.
+	 *
+	 * @param id the id
+	 * @param employee the employee
+	 * @return the employee DTO
+	 */
+	@Override
+	public EmployeeDTO update(Long id, EmployeeDTO employee) {
+<span class="fc" id="L121">		Optional&lt;EmployeeEntity&gt; entity = employeeDAO.findById(id);</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">		if(entity.isPresent()) {</span>
+<span class="fc" id="L123">			return convertToDTO(employeeDAO.save(updateDataEntity(entity.get(), employee)));</span>
+		}else {
+<span class="fc" id="L125">			log.error(EMPLOYEE_NOT_FOUND);</span>
+<span class="fc" id="L126">			return null;</span>
+		}
 	}
+	
+	/**
+	 * Convert to DTO.
+	 *
+	 * @param entity the entity
+	 * @return the employee DTO
+	 */
+	private EmployeeDTO convertToDTO(EmployeeEntity entity) {
+<span class="fc" id="L137">		EmployeeDTO employeeDTO = mapper.map(entity, EmployeeDTO.class);</span>
+<span class="fc" id="L138">		employeeDTO.setEntrepriseId(entity.getEntreprise().getId());</span>
+<span class="fc" id="L139">		return employeeDTO;</span>
+	}
+	
+	/**
+	 * Convert to entity.
+	 *
+	 * @param entity the entity
+	 * @param employeeDTO the employee DTO
+	 * @return the employee entity
+	 */
+	private EmployeeEntity updateDataEntity(EmployeeEntity entity, EmployeeDTO employeeDTO) {
+<span class="fc" id="L150">		entity.setName(employeeDTO.getName());</span>
+<span class="fc" id="L151">		entity.setOwner(employeeDTO.isOwner());</span>
+<span class="fc" id="L152">		entity.setPhone(employeeDTO.getPhone());</span>
+<span class="fc" id="L153">		entity.setFechaModificacion(new Date());</span>
+<span class="fc" id="L154">		return entity;</span>
+	}
+
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -11,19 +11,32 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * The Class SwaggerConfiguration.
+ */
 @Configuration
 @EnableSwagger2
-<span class="fc" id="L16">public class SwaggerConfiguration {</span>
+<span class="fc" id="L19">public class SwaggerConfiguration {</span>
 
+	/**
+	 * Api.
+	 *
+	 * @return the docket
+	 */
 	@Bean
 	public Docket api() {
-<span class="fc" id="L20">		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())</span>
-<span class="fc" id="L21">				.paths(PathSelectors.any()).build().apiInfo(apiInfo());</span>
+<span class="fc" id="L28">		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())</span>
+<span class="fc" id="L29">				.paths(PathSelectors.any()).build().apiInfo(apiInfo());</span>
 	}
 
+	/**
+	 * Api info.
+	 *
+	 * @return the api info
+	 */
 	private ApiInfo apiInfo() {
-<span class="fc" id="L25">		return new ApiInfoBuilder().title(&quot;API Empresas&quot;).description(&quot;API para la gestion de empresas&quot;).version(&quot;v1&quot;)</span>
-<span class="fc" id="L26">				.build();</span>
+<span class="fc" id="L38">		return new ApiInfoBuilder().title(&quot;API Empresas&quot;).description(&quot;API para la gestion de empresas&quot;).version(&quot;v1&quot;)</span>
+<span class="fc" id="L39">				.build();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 public class EmployeeRestController {
 
 	/** The employee service. */
-	public final IEmployeeService employeeService;
+	private final IEmployeeService employeeService;
 	
 	/**
 	 * Gets the all employees.

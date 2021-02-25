@@ -32,4 +32,5 @@ out/
 
 ### VS Code ###
 .vscode/
-api_citame_empresas/
+api_citame_empresas/build/
+api_citame_empresas/bin/
